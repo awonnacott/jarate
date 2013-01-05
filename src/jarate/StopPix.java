@@ -21,12 +21,12 @@ public class StopPix extends JButton implements ActionListener {
 		} catch (IOException e1) {
 			
 		}
-		Jar.CSAEnabled = false;
+		Main.CSAEnabled = false;
 		validateName();
 	}
 
 	void validateName() {
-		if (Jar.CSAEnabled) {
+		if (Main.CSAEnabled) {
 			setEnabled(true);
 			setText("Stop Screencapture Software");
 		} else {

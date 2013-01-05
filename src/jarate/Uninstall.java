@@ -15,15 +15,15 @@ class Uninstall extends JButton implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Jar.config.delete();
-		Jar.persistant.delete();
-		Jar.launchConfigRestore();
+		Main.config.delete();
+		Main.persistant.delete();
+		Main.launchConfigRestore();
 		validateName();
 		System.exit(0);
 	}
 
 	void validateName() {
-		if (Jar.config.exists()) {
+		if (Main.config.exists()) {
 			setEnabled(true);
 			setText("Uninstall Jarate");
 		} else {

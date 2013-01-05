@@ -11,13 +11,13 @@ class Quit extends JButton implements ActionListener {
 	
 	Quit() {
 		super();
-		setText ("Quit Jarate");
+		setText("Quit Jarate");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			Jar.saveConfig();
+			Main.saveConfig();
 		} catch (IOException e1) {
 		}
 		System.exit(0);

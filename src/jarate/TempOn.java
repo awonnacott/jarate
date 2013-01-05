@@ -15,12 +15,12 @@ class TempOn extends JButton implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Jar.guide.delete();
+		Main.guide.delete();
 		validateName();
 	}
 
 	void validateName() {
-		if (Jar.guide.exists()) {
+		if (Main.guide.exists()) {
 			setEnabled(true);
 			setText("Temporary Unlock");
 		} else {

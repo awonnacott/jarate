@@ -19,9 +19,7 @@ public class FixNet extends JButton implements ActionListener {
 		try {
 			Runtime.getRuntime().exec("networksetup -setairportpower airport off");
 			Runtime.getRuntime().exec("networksetup -setairportpower airport on");
-		} catch (IOException e1) {
-			
-		}
+		} catch (IOException e1) { }
 	}
 
 	void validateName() {

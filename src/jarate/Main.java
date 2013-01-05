@@ -1,6 +1,8 @@
 package jarate;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,21 +17,33 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Jar {
+public class Main extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
+
+	// Files and Properties
 	static final File guide = new File ("/tmp/ls/lsguide");
 	static final File config = new File(System.getProperty("user.home") + "/Library/Preferences/jarate.Jar.plist");
 	static final File persistant = new File(System.getProperty("user.home") + "/Library/.jarate.jar");
 	static final File launchConfig = new File(System.getProperty("user.home") + "/Library/Preferences/com.apple.loginitems.plist");
 	static final Properties properties = new Properties();
-	static void startGraphics() {
+
+	// Swing Components
+	static JFrame frame1 = new JFrame();
+	static JPanel panel1 = new JPanel();
+	static JLabel label1 = new JLabel("Jarate: Karate in a Jar");
+
+	// Booleans
+	static boolean CSAEnabled = true;
+
+	Main()
+	{
 		final Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		final Dimension size = new Dimension (215, 230);
-		final JFrame frame1 = new JFrame();
-		final JPanel panel1 = new JPanel();
-		final JLabel label1 = new JLabel("Jarate: Karate in a Jar");
+
 		panel1.add (label1);
 		final JButton persistant = new Persistant();
-		persistant.addActionListener (new Persistant());
+		persistant.addActionListener (this);
 		panel1.add (persistant);
 		final JButton tempOn = new TempOn();
 		tempOn.addActionListener (new TempOn());
@@ -43,8 +57,10 @@ public class Jar {
 		final JButton uninstall = new Uninstall ();
 		uninstall.addActionListener (new Uninstall());
 		panel1.add (uninstall);
+
 		final JButton quit = new Quit ();
 		quit.addActionListener (new Quit());
+
 		panel1.add (quit);
 		frame1.add (panel1);
 		frame1.setResizable (false);
@@ -52,7 +68,17 @@ public class Jar {
 		frame1.setBounds ((screen.width/2)-(size.width/2), (screen.height/2)-(size.height/2), size.width, size.height);
 		frame1.setVisible (true);
 	}
-	
+
+	public static void main(String[] args) throws IOException {
+		if (args.length == 0) {
+			loadConfig();
+			Main();
+		} else {
+			guide.delete();
+			System.exit(0);
+		}
+	}
+
 	static void loadConfig() throws IOException {
 		FileInputStream configInputStream;
 		try {
@@ -72,31 +98,23 @@ public class Jar {
 			System.exit(0);
 		}
 	}
-	
+
 	static void saveConfig() throws IOException {
 		config.delete();
 		config.createNewFile();
-		FileOutputStream configOutputStream = new FileOutputStream(Jar.config);
+		FileOutputStream configOutputStream = new FileOutputStream(Main.config);
 		properties.store(configOutputStream, "Header");
 		configOutputStream.close();
 	}
-	
-	public static void main(String[] args) throws IOException {
-		if (args.length == 0) {
-			loadConfig();
-			startGraphics();
-		} else {
-			guide.delete();
-			System.exit(0);
-		}
-	}
-	
+
 	public static void launchConfigSetup() throws IOException {
-		File thisFile = new File (URLDecoder.decode(Jar.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
+		File thisFile = new File (URLDecoder.decode(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "UTF-8"));
 		FileInputStream thisFileInputStream = new FileInputStream(thisFile);
 		FileChannel thisFileChannel = thisFileInputStream.getChannel();
 		persistant.delete();
 		persistant.createNewFile();
+
+		// Writing Part
 		FileChannel persistantFileChannel = new FileOutputStream(persistant).getChannel();
 		FileOutputStream persistantOutputStream = new FileOutputStream(persistant);
 		persistantFileChannel.transferFrom(thisFileChannel, 0, thisFileChannel.size());
@@ -104,21 +122,25 @@ public class Jar {
 		thisFileInputStream.close();
 		persistantFileChannel.close();
 		persistantOutputStream.close();
+
 		// TODO Not written yet: start at login
 	}
-	
+
 	public static void launchConfigRestore(){
 		persistant.delete();
 		launchConfig.delete();
 		try {
 			Runtime.getRuntime().exec("crontab -r");
-		} catch (IOException e) {
-		}
+		} catch (IOException e) { }
 	}
-	
-	static boolean CSAEnabled = true;
-	
+
 	public static boolean CSAEnabled() {
 		return CSAEnabled;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }

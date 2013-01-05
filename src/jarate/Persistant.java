@@ -16,20 +16,20 @@ class Persistant extends JButton implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(" action " + Jar.properties.getProperty("enabled"));
-		if (Jar.properties.getProperty("enabled").equals("yes")) {
-			Jar.launchConfigRestore();
-			System.out.println(" yes " + Jar.properties.getProperty("enabled"));
-			Jar.properties.setProperty("enabled", "no");
-			System.out.println(" no " + Jar.properties.getProperty("enabled"));
+		System.out.println(" action " + Main.properties.getProperty("enabled"));
+		if (Main.properties.getProperty("enabled").equals("yes")) {
+			Main.launchConfigRestore();
+			System.out.println(" yes " + Main.properties.getProperty("enabled"));
+			Main.properties.setProperty("enabled", "no");
+			System.out.println(" no " + Main.properties.getProperty("enabled"));
 		} else {
 			try {
-				Jar.launchConfigSetup();
+				Main.launchConfigSetup();
 			} catch (IOException e1) {
 			}
-			System.out.println(" no " + Jar.properties.getProperty("enabled"));
-			Jar.properties.setProperty("enabled", "yes");
-			System.out.println(" yes " + Jar.properties.getProperty("enabled"));
+			System.out.println(" no " + Main.properties.getProperty("enabled"));
+			Main.properties.setProperty("enabled", "yes");
+			System.out.println(" yes " + Main.properties.getProperty("enabled"));
 		}
 		try {
 			Runtime.getRuntime().exec("killall CSA");
@@ -39,14 +39,14 @@ class Persistant extends JButton implements ActionListener {
 	}
 
 	void validateName() {
-		System.out.println(" validate " + Jar.properties.getProperty("enabled"));
-		if (Jar.properties.getProperty("enabled").equals("yes")) {
-			System.out.println(" yes " + Jar.properties.getProperty("enabled"));
+		System.out.println(" validate " + Main.properties.getProperty("enabled"));
+		if (Main.properties.getProperty("enabled").equals("yes")) {
+			System.out.println(" yes " + Main.properties.getProperty("enabled"));
 			setText("Remove persistant lock");
 		} else {
-			System.out.println(" no " + Jar.properties.getProperty("enabled"));
-			Jar.properties.setProperty("enabled", "no");
-			System.out.println(" no " + Jar.properties.getProperty("enabled"));
+			System.out.println(" no " + Main.properties.getProperty("enabled"));
+			Main.properties.setProperty("enabled", "no");
+			System.out.println(" no " + Main.properties.getProperty("enabled"));
 			setText("Persistant Unlock");
 		}
 	}
