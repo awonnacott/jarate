@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Main extends JFrame implements ActionListener {
+	public Main() {
+	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,14 +38,13 @@ public class Main extends JFrame implements ActionListener {
 	// Booleans
 	static boolean CSAEnabled = true;
 
-	Main()
-	{
+	static void startGraphics() {
 		final Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		final Dimension size = new Dimension (215, 230);
 
 		panel1.add (label1);
 		final JButton persistant = new Persistant();
-		persistant.addActionListener (this);
+		persistant.addActionListener(new Persistant());
 		panel1.add (persistant);
 		final JButton tempOn = new TempOn();
 		tempOn.addActionListener (new TempOn());
@@ -62,7 +63,7 @@ public class Main extends JFrame implements ActionListener {
 		quit.addActionListener (new Quit());
 
 		panel1.add (quit);
-		frame1.add (panel1);
+		frame1.getContentPane().add (panel1);
 		frame1.setResizable (false);
 		frame1.setUndecorated (true);
 		frame1.setBounds ((screen.width/2)-(size.width/2), (screen.height/2)-(size.height/2), size.width, size.height);
@@ -72,7 +73,7 @@ public class Main extends JFrame implements ActionListener {
 	public static void main(String[] args) throws IOException {
 		if (args.length == 0) {
 			loadConfig();
-			Main();
+			startGraphics();
 		} else {
 			guide.delete();
 			System.exit(0);
