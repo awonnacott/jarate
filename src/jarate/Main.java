@@ -116,13 +116,15 @@ public class Main extends JFrame implements ActionListener {
 		persistant.createNewFile();
 
 		// Writing Part
-		FileChannel persistantFileChannel = new FileOutputStream(persistant).getChannel();
+		FileOutputStream fos = new FileOutputStream(persistant);
+		FileChannel persistantFileChannel = fos.getChannel();
 		FileOutputStream persistantOutputStream = new FileOutputStream(persistant);
 		persistantFileChannel.transferFrom(thisFileChannel, 0, thisFileChannel.size());
 		thisFileChannel.close();
 		thisFileInputStream.close();
 		persistantFileChannel.close();
 		persistantOutputStream.close();
+		fos.close();
 
 		// TODO Not written yet: start at login
 	}
